@@ -10,9 +10,7 @@ void MainThread(HMODULE instance)
     jint result = JNI_GetCreatedJavaVMs(&p_jvm, 1, nullptr);
 
     void* p_env{ nullptr }; // JNI interface pointer
-    JavaVMAttachArgs attach_args;
-    attach_args.version = JNI_VERSION_10;
-    p_jvm->AttachCurrentThread(&p_env, &attach_args);
+    p_jvm->AttachCurrentThread(&p_env, nullptr);
 
     while (!GetAsyncKeyState(VK_END))
     {
