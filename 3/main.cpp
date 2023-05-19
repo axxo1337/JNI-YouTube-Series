@@ -9,36 +9,8 @@ void MainThread(HMODULE module)
 {
     p_jni = std::make_unique<JNI>();
 
-    /*
-    jclass mouse_class{ p_jni->GetInterface()->FindClass("org/lwjgl/input/Mouse")};
-
-    if (mouse_class == nullptr)
-    {
-        printf("Failed to get Mouse class\n");
-        MessageBoxA(0, "ERROR", "Check console", MB_ICONERROR);
-        FreeLibrary(module); 
-    }
-
-    jmethodID is_button_down_id{ p_env->GetStaticMethodID(mouse_class, "isButtonDown", "(I)Z") };
-
-    if (is_button_down_id == 0)
-    {
-        printf("Failed to get is_button_down id\n");
-        MessageBoxA(0, "ERROR", "Check console", MB_ICONERROR);
-        FreeLibrary(module);
-    }
-    */
-
     while (!GetAsyncKeyState(VK_END))
     {
-        /*
-        static jint arg{ 0 };
-
-        if (p_env->CallStaticBooleanMethodA(mouse_class, is_button_down_id, (jvalue*)&arg))
-        {
-            printf("Mouse clicked!\n");
-        }
-        */
     }
 
     FreeLibrary(module);
