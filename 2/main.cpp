@@ -12,7 +12,7 @@ void MainThread(HMODULE module)
     JNIEnv* p_env{ nullptr }; // JNI interface pointer
     p_jvm->AttachCurrentThread((void**)&p_env, nullptr);
 
-    jclass mouse_class = p_env->FindClass("org/lwjgl/input/Mouse");
+    jclass mouse_class{ p_env->FindClass("org/lwjgl/input/Mouse") };
 
     if (mouse_class == 0)
     {
@@ -21,7 +21,7 @@ void MainThread(HMODULE module)
         FreeLibrary(module);
     }
 
-    jmethodID is_button_down_id = p_env->GetStaticMethodID(mouse_class, "isButtonDown", "(I)Z");
+    jmethodID is_button_down_id{ p_env->GetStaticMethodID(mouse_class, "isButtonDown", "(I)Z") };
 
     if (is_button_down_id == 0)
     {
@@ -32,7 +32,7 @@ void MainThread(HMODULE module)
 
     while (!GetAsyncKeyState(VK_END))
     {
-        static jint arg = 0;
+        static jint arg{ 0 };
 
         if (p_env->CallStaticBooleanMethodA(mouse_class, is_button_down_id, (jvalue*)&arg))
         {
