@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="JNI.cpp">
+      <Filter>JNI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="JNI">
+      <UniqueIdentifier>{53a62754-1511-4452-b295-2bd4b789f5ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JNI\Classes">
+      <UniqueIdentifier>{46f80489-a234-4dc3-aacd-8cb4388c1476}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="JNI.h">
+      <Filter>JNI</Filter>
+    </ClInclude>
+    <ClInclude Include="CMouse.h">
+      <Filter>JNI\Classes</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
