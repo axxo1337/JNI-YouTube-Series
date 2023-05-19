@@ -4,6 +4,8 @@
 
 #include "JNI.h"
 
+class JNI;
+
 class CMouse final
 {
 public:
@@ -23,7 +25,7 @@ public:
 		if (is_init)
 			return true;
 
-		jclass class_ptr{ p_jni->GetInterface()->FindClass("org/lwjgl/input/Mouse") };
+		jclass class_ptr{ sp_jni->GetInterface()->FindClass("org/lwjgl/input/Mouse") };
 
 		if (class_ptr == nullptr)
 		{
