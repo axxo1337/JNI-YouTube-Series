@@ -25,7 +25,7 @@ public:
 		if (is_init)
 			return true;
 
-		jclass class_ptr{ sp_jni->GetInterface()->FindClass("org/lwjgl/input/Mouse") };
+		class_ptr = sp_jni->GetInterface()->FindClass("org/lwjgl/input/Mouse");
 
 		if (class_ptr == nullptr)
 		{
