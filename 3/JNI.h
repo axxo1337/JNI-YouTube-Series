@@ -26,12 +26,11 @@ public:
 			}
 
 			p_jvm->AttachCurrentThread((void**)&p_env, nullptr);
-
 		}
 
 		/* Initialize classes */
 		{
-			cmouse = std::make_unique<CMouse>(this);
+			cmouse = std::make_shared<CMouse>(p_env);
 		}
 
 		is_init = true;
@@ -62,7 +61,7 @@ public:
 		return p_env;
 	}
 public:
-	std::unique_ptr<CMouse> cmouse;
+	std::shared_ptr<CMouse> cmouse;
 private:
 	JavaVM* p_jvm;
 	JNIEnv* p_env;
