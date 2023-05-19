@@ -12,29 +12,31 @@ void MainThread(HMODULE module)
     JNIEnv* p_env{ nullptr }; // JNI interface pointer
     p_jvm->AttachCurrentThread((void**)&p_env, nullptr);
 
-    jclass mouse_class{ p_env->FindClass("org/lwjgl/input/Mouse") };
+    jclass mouse_class = p_env->FindClass("org/lwjgl/input/Mouse");
 
-    if (mouse_class == nullptr)
+    if (mouse_class == 0)
     {
-        printf("Mouse class not found\n");
+        printf("Failed to get Mouse class\n");
+        MessageBoxA(0, "ERROR", "Check console", MB_ICONERROR);
         FreeLibrary(module);
     }
 
-    jmethodID is_button_down_id{ p_env->GetStaticMethodID(mouse_class, "isButtonDown", "(I)Z") };
+    jmethodID is_button_down_id = p_env->GetStaticMethodID(mouse_class, "isButtonDown", "(I)Z");
 
     if (is_button_down_id == 0)
     {
-        printf("Did not find isButtonDown\n");
+        printf("Failed to get is_button_down id\n");
+        MessageBoxA(0, "ERROR", "Check console", MB_ICONERROR);
         FreeLibrary(module);
     }
 
-    jint button_id{ 0 };
-
     while (!GetAsyncKeyState(VK_END))
     {
-        if (p_env->CallStaticBooleanMethodA(mouse_class, is_button_down_id, (jvalue*)&button_id))
+        static jint arg = 0;
+
+        if (p_env->CallStaticBooleanMethodA(mouse_class, is_button_down_id, (jvalue*)&arg))
         {
-            printf("[+] Mouse pressed\n");
+            printf("Mouse clicked!\n");
         }
     }
 
