@@ -2,15 +2,11 @@
 
 #include <jni.h>
 
-#include "JNI.h"
-
-class JNI;
-
 class CMouse final
 {
 public:
-	CMouse(JNI* sp_jni)
-		: sp_jni(sp_jni)
+	CMouse(JNIEnv* p_env)
+		: p_env(p_env)
 	{
 		Init();
 	}
@@ -25,7 +21,7 @@ public:
 		if (is_init)
 			return true;
 
-		class_ptr = sp_jni->GetInterface()->FindClass("org/lwjgl/input/Mouse");
+		class_ptr = p_env->FindClass("org/lwjgl/input/Mouse");
 
 		if (class_ptr == nullptr)
 		{
@@ -37,7 +33,7 @@ public:
 		return is_init;
 	}
 private:
-	JNI* sp_jni;
+	JNIEnv* p_env;
 	jclass class_ptr;
 
 	bool is_init{ false };
