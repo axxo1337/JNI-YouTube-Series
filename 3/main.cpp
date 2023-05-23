@@ -2,43 +2,24 @@
 #include <cstdio>
 
 #include <Windows.h>
+#include <jni.h>
 
 #include "JNI.h"
+#include "Hooks.h"
 
 void MainThread(HMODULE module)
 {
     p_jni = std::make_unique<JNI>();
-
-    /*
-    jclass mouse_class{ p_jni->GetInterface()->FindClass("org/lwjgl/input/Mouse")};
-
-    if (mouse_class == nullptr)
-    {
-        printf("Failed to get Mouse class\n");
-        MessageBoxA(0, "ERROR", "Check console", MB_ICONERROR);
-        FreeLibrary(module); 
-    }
-
-    jmethodID is_button_down_id{ p_env->GetStaticMethodID(mouse_class, "isButtonDown", "(I)Z") };
-
-    if (is_button_down_id == 0)
-    {
-        printf("Failed to get is_button_down id\n");
-        MessageBoxA(0, "ERROR", "Check console", MB_ICONERROR);
-        FreeLibrary(module);
-    }
-    */
+    p_hooks = std::make_unique<Hooks>();
 
     while (!GetAsyncKeyState(VK_END))
     {
-        /*
-        static jint arg{ 0 };
-
-        if (p_env->CallStaticBooleanMethodA(mouse_class, is_button_down_id, (jvalue*)&arg))
+        if (GetAsyncKeyState(VK_XBUTTON1))
         {
-            printf("Mouse clicked!\n");
+            p_jni->p_crobot->mousePress(16);
+            p_jni->p_crobot->mouseRelease(16);
+            p_jni->p_crobot->delay(200 + (rand() % 20));
         }
-        */
     }
 
     FreeLibrary(module);
