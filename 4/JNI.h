@@ -6,6 +6,7 @@
 #include <jni.h>
 
 #include "CRobot.h"
+#include "CMinecraft.h"
 
 class JNI final 
 {
@@ -28,6 +29,7 @@ public:
 		/* Init game classes */
 		{
 			p_crobot = std::make_unique<CRobot>(p_env);
+			p_cminecraft = std::make_unique<CMinecraft>(p_env);
 		}
 
 		is_init = true;
@@ -51,6 +53,7 @@ public:
 	}
 public:
 	std::unique_ptr<CRobot> p_crobot;
+	std::unique_ptr<CMinecraft> p_cminecraft;
 private:
 	JavaVM* p_jvm;
 	JNIEnv* p_env;
