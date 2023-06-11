@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="JNI.cpp">
+      <Filter>JNI</Filter>
+    </ClCompile>
+    <ClCompile Include="Hooks.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="JNI">
+      <UniqueIdentifier>{fbd83b4b-24b6-4ce6-8c66-ee9c4903daff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks">
+      <UniqueIdentifier>{e48cfe3d-2066-4a0f-b045-c4cb21f97206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{c0304b51-1f0d-40ee-9f9e-de5a70a93b2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JNI\Classes">
+      <UniqueIdentifier>{a9ab4244-ed03-4d00-8b0a-a3fe7b76c693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{975dbc4f-afb2-47d9-bdef-3225944962ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mapper">
+      <UniqueIdentifier>{c78ab1b4-d2c5-46c3-8413-3d9a258e31e6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="JNI.h">
+      <Filter>JNI</Filter>
+    </ClInclude>
+    <ClInclude Include="Hooks.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="CMinecraft.h">
+      <Filter>JNI\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Include\json.hpp">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Include\MinHook.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="rsc.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="JNIMapper.h">
+      <Filter>Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="JNITypes.h">
+      <Filter>Mapper</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
