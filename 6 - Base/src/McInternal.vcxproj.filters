@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="JNI.cpp">
+      <Filter>JNI</Filter>
+    </ClCompile>
+    <ClCompile Include="Hooks.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Hooks">
+      <UniqueIdentifier>{e55630bb-d7c8-4a42-ae52-0c0bdb455573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{b55e5264-76e5-45a0-8808-f469c15f6cd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{ed855c4e-4a79-4558-bd7c-8c06346471d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\JNIMapper">
+      <UniqueIdentifier>{bfcfda1f-447a-4890-8839-f68a8eb87a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JNI">
+      <UniqueIdentifier>{bdfb56df-6135-4ee3-b3ab-7aa92ff2a1f1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dependencies\include\JNIMapper\JNIMapper.h">
+      <Filter>Dependencies\JNIMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\JNIMapper\JNITypes.h">
+      <Filter>Dependencies\JNIMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="JNI.h">
+      <Filter>JNI</Filter>
+    </ClInclude>
+    <ClInclude Include="Link.h">
+      <Filter>Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Hooks.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\MinHook.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\json.hpp">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\mappings.json">
+      <Filter>Assets</Filter>
+    </None>
+  </ItemGroup>
+</Project>

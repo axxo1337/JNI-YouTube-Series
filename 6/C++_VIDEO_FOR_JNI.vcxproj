@@ -113,7 +113,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Lib;C:\Program Files\Java\jdk-17\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);jvm.lib;libMinHook-x64-v141-mt.lib</AdditionalDependencies>
+      <AdditionalDependencies>libMinHook-x64-v141-mt.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies);jvm.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,7 +134,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Lib;C:\Program Files\Java\jdk-17\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);jvm.lib;libMinHook-x64-v141-mt.lib</AdditionalDependencies>
+      <AdditionalDependencies>libMinHook-x64-v141-mt.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies);jvm.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

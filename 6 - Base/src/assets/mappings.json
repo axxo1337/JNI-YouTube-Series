@@ -22,7 +22,8 @@
     },
     "methods": {
       "getEntityByID": "N|(I)Lpk;|a",
-      "setWorldTime": "N|(J)V|b"
+      "setWorldTime": "N|(J)V|b",
+      "prototyp": "N|I|zxdf"
     }
   },
   "PlayerControllerMP": {
@@ -39,7 +40,8 @@
     "fields": {
     },
     "methods": {
-      "iterator": "N|()Ljava/util/Iterator;|iterator"
+      "iterator": "N|()Ljava/util/Iterator;|iterator",
+      "prototyp": "N|I|zxdf"
     }
   },
   "Iterator": {
@@ -48,7 +50,8 @@
     },
     "methods": {
       "hasNext": "N|()Z|hasNext",
-      "next": "N|()Ljava/lang/Object;|next"
+      "next": "N|()Ljava/lang/Object;|next",
+      "prototyp": "N|I|zxdf"
     }
   }
 }

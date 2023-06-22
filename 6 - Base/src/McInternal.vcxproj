@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a479c842-cc3a-49ec-bd5e-3524075857e0}</ProjectGuid>
-    <RootNamespace>CVIDEOFORJNI</RootNamespace>
+    <ProjectGuid>{27f90435-5e81-42e9-bbb0-17d771bf4a6c}</ProjectGuid>
+    <RootNamespace>McInternal</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>JNI_Minecraft_Cheat</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -107,6 +106,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Include;$(JDKPATH)\include</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Include;C:\Program Files\Java\jdk-17\include;C:\Program Files\Java\jdk-17\include\win32</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -115,6 +115,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Lib;C:\Program Files\Java\jdk-17\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);jvm.lib;libMinHook-x64-v141-mt.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>RscLink.exe assets</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -136,20 +139,26 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Lib;C:\Program Files\Java\jdk-17\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);jvm.lib;libMinHook-x64-v141-mt.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>RscLink.exe assets</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Hooks.cpp" />
+    <ClCompile Include="JNI.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Dependencies\Include\json.hpp" />
-    <ClInclude Include="Dependencies\Include\MinHook.h" />
+    <ClInclude Include="dependencies\include\JNIMapper\JNIMapper.h" />
+    <ClInclude Include="dependencies\include\JNIMapper\JNITypes.h" />
+    <ClInclude Include="dependencies\include\json.hpp" />
+    <ClInclude Include="dependencies\include\MinHook.h" />
     <ClInclude Include="Hooks.h" />
     <ClInclude Include="JNI.h" />
-    <ClInclude Include="JNITypes.h" />
-    <ClInclude Include="JNIMapper.h" />
-    <ClInclude Include="rsc.h" />
-    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Link.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\mappings.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
