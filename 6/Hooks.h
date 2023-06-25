@@ -26,11 +26,9 @@ public:
 		is_init = true;
 	}
 
-	~Hooks()
+	void Remove()
 	{
 		MH_RemoveHook(p_swapbuffers);
-
-		is_init = false;
 	}
 
 	bool GetInit()

@@ -12,18 +12,22 @@
 #include <json.hpp>
 #include <jni.h>
 
+#define JNI_DEBUG_OUTPUT 0
+
 class JNIMapper final
 {
 public:
 	JNIMapper(const uint8_t* memory, JNIEnv* p_env)
 	{
 		using namespace nlohmann;
-		
-		parsed_map = nlohmann::json::parse(memory);
-		
-		printf("=========================== JNIMapper ===========================\n");
 
-		for (json::iterator it_i = parsed_map.begin(); it_i != parsed_map.end(); ++it_i) 
+		parsed_map = nlohmann::json::parse(memory);
+
+#if JNI_DEBUG_OUTPUT == 1
+		printf("=========================== JNIMapper ===========================\n");
+#endif
+
+		for (json::iterator it_i = parsed_map.begin(); it_i != parsed_map.end(); ++it_i)
 		{
 			static bool found_version{ false };
 
@@ -37,11 +41,15 @@ public:
 
 			if (class_ptr == nullptr)
 			{
+#if JNI_DEBUG_OUTPUT == 1
 				printf("[-] Failed to get class %s ptr\n", it_i.key().c_str());
+#endif
 				continue;
 			}
+#if JNI_DEBUG_OUTPUT == 1
 			else
 				printf("[+] Got class %s\n", it_i.key().c_str());
+#endif
 
 			auto p_class = std::make_shared<JNIClass>(p_env, class_ptr);
 			classes.emplace(std::pair{ it_i.key(), std::move(p_class) });
@@ -57,9 +65,9 @@ public:
 				std::string no_indicator_hash = hash.substr(2, hash.size() - 1);
 
 				size_t delimiter = no_indicator_hash.find("|");
-				
+
 				std::string type = no_indicator_hash.substr(0, delimiter);
-				std::string name = no_indicator_hash.substr(delimiter+1, no_indicator_hash.size()-1);
+				std::string name = no_indicator_hash.substr(delimiter + 1, no_indicator_hash.size() - 1);
 
 				bool is_static{ false };
 
@@ -74,11 +82,15 @@ public:
 
 				if (field_id == 0)
 				{
+#if JNI_DEBUG_OUTPUT == 1
 					printf("      [-] Failed to get field %s\n", it_j.key().c_str());
+#endif
 					continue;
 				}
+#if JNI_DEBUG_OUTPUT == 1
 				else
 					printf("      [+] Got field %s\n", it_j.key().c_str());
+#endif
 
 				std::shared_ptr<JNIField> p_field;
 
@@ -130,7 +142,7 @@ public:
 				} break;
 				}
 
-				p_mapped_class->fields.emplace(std::pair{it_j.key(), std::move(p_field)});
+				p_mapped_class->fields.emplace(std::pair{ it_j.key(), std::move(p_field) });
 			}
 
 			/* Get method ids */
@@ -161,15 +173,19 @@ public:
 
 				if (method_id == 0)
 				{
+#if JNI_DEBUG_OUTPUT == 1
 					printf("      [-] Failed to get method %s\n", it_j.key().c_str());
+#endif
 					continue;
 				}
+#if JNI_DEBUG_OUTPUT == 1
 				else
 					printf("      [+] Got method %s\n", it_j.key().c_str());
+#endif
 
 				std::shared_ptr<JNIMethod> p_method;
 
-				switch (sig.substr(sig_delimiter+1, sig.size()-1)[0])
+				switch (sig.substr(sig_delimiter + 1, sig.size() - 1)[0])
 				{
 				case 'V':
 				{

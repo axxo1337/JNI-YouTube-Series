@@ -1,12 +1,7 @@
 #ifndef JNIMAPPER_JNITypes_H_
 #define JNIMAPPER_JNITypes_H_
 
-#include <map>
-#include <iterator>
-#include <memory>
-
 #include <jni.h>
-#include <json.hpp>
 
 class JNIField;
 class JNIMethod;
@@ -16,7 +11,8 @@ class JNIClass
 {
 public:
 	JNIClass()
-	{}
+	{
+	}
 
 	JNIClass(JNIEnv* p_env, jclass class_ptr)
 		: p_env(p_env), ptr(class_ptr)
@@ -168,7 +164,6 @@ public:
 	virtual void SetValueObject(jobject new_value)
 	{
 	}
-
 protected:
 	JNIEnv* p_env;
 	JNIClass* parent;
@@ -362,6 +357,9 @@ public:
 		if (is_static)
 			return p_env->GetStaticObjectField(parent->GetPtr(), id);
 
+		if (parent->GetInstance() == nullptr)
+			return nullptr;
+
 		return p_env->GetObjectField(parent->GetInstance(), id);
 	}
 
@@ -388,6 +386,8 @@ public:
 
 	void SetParent(JNIClass* new_parent)
 	{
+		if (this == nullptr)
+			return;
 		parent = new_parent;
 	}
 
@@ -593,6 +593,9 @@ public:
 		if (is_static)
 			return p_env->CallStaticObjectMethodA(parent->GetPtr(), id, args);
 
+		if (parent->GetInstance() == nullptr)
+			return nullptr;
+
 		return p_env->CallObjectMethodA(parent->GetInstance(), id, args);
 	}
 };
@@ -602,19 +605,23 @@ class JNIClassInstance : public JNIClass
 public:
 	JNIClassInstance(JNIEnv* p_env, JNIClass* inheriter, jobject class_instance)
 	{
-		this->p_env = p_env; ptr = inheriter->GetPtr(); instance = class_instance; fields = inheriter->fields; methods = inheriter->methods;
+		p_env = p_env;
+		ptr = inheriter->GetPtr();
+		instance = class_instance;
+		fields = inheriter->fields;
+		methods = inheriter->methods;
 
-		for (auto it = fields.begin(); it != fields.end(); ++it)
+		for (auto& field : fields)
 		{
-			it->second.get()->SetParent(reinterpret_cast<JNIClass*>(this));
+			field.second->SetParent(this);
 		}
 
-		for (auto it = methods.begin(); it != methods.end(); ++it)
+		for (auto& method : methods)
 		{
-			it->second.get()->SetParent(reinterpret_cast<JNIClass*>(this));
+			method.second->SetParent(this);
 		}
-		//for (json::iterator it = parsed_map[it_i.key()]["fields"].begin(); it_j != parsed_map[it_i.key()]["fields"].end(); ++it_j)
 	}
 };
+
 
 #endif

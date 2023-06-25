@@ -4,11 +4,12 @@
     "name": "ave",
     "fields": {
       "theMinecraft": "S|Lave;|S",
-      "rightClickDelayTimer":  "N|I|ap",
+      "rightClickDelayTimer": "N|I|ap",
       "theWorld": "N|Lbdb;|f",
       "pointedEntity": "N|Lpk;|i",
       "playerController": "N|Lbda;|c",
-      "thePlayer": "N|Lbew;|h"
+      "thePlayer": "N|Lbew;|h",
+      "objectMouseOver": "N|Lauh;s"
     },
     "methods": {
       "clickMouse": "N|()V|aw",
@@ -22,7 +23,8 @@
     },
     "methods": {
       "getEntityByID": "N|(I)Lpk;|a",
-      "setWorldTime": "N|(J)V|b"
+      "setWorldTime": "N|(J)V|b",
+      "prototyp": "N|I|zxdf"
     }
   },
   "PlayerControllerMP": {
@@ -39,7 +41,9 @@
     "fields": {
     },
     "methods": {
-      "iterator": "N|()Ljava/util/Iterator;|iterator"
+      "iterator": "N|()Ljava/util/Iterator;|iterator",
+      "size": "N|()I|size",
+      "prototyp": "N|I|zxdf"
     }
   },
   "Iterator": {
@@ -48,7 +52,44 @@
     },
     "methods": {
       "hasNext": "N|()Z|hasNext",
-      "next": "N|()Ljava/lang/Object;|next"
+      "next": "N|()Ljava/lang/Object;|next",
+      "prototyp": "N|I|zxdf"
+    }
+  },
+  "Entity": {
+    "name": "pk",
+    "fields": {
+      "posX": "N|D|s",
+      "posY": "N|D|t",
+      "posZ": "N|D|u",
+      "width": "N|F|J",
+      "height": "N|F|K",
+      "isDead":  "N|Z|I"
+    },
+    "methods": {
+      "getHealth": "N|()F|bn",
+      "prototyp": "N|I|zxdf"
+    }
+  },
+  "EntityPlayerSP": {
+    "name": "bew",
+    "fields": {
+      "posX": "N|D|s",
+      "posY": "N|D|t",
+      "posZ": "N|D|u",
+      "yaw":  "N|F|y",
+      "pitch":  "N|F|z"
+    },
+    "methods": {
+      "getHealth": "N|()F|bn",
+      "prototyp": "N|I|zxdf"
+    }
+  },
+  "EntityLivingBase": {
+    "name": "pr",
+    "fields": {
+    },
+    "methods": {
     }
   }
 }
