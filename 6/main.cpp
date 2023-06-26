@@ -9,6 +9,16 @@
 
 constexpr float PI{ 3.1415926f };
 
+struct Vec3
+{
+    float x, y, z;
+
+    Vec3 operator- (Vec3& o)
+    {
+        return Vec3{x - o.x, y - o.y, z - o.z};
+    }
+};
+
 float ClampAng(float angle, float min, float max)
 {
     if (angle >= 90.f)
@@ -71,6 +81,9 @@ void MainThread(HMODULE module)
         /* Aimbot */
         {
             static bool locked{ false };
+            static float max_distance{ 8.f };
+
+            int entity_list_size{ entity_set.methods["size"]->CallInt() };
 
             entity_set_it.SetInstance(entity_set.methods["iterator"]->CallObject());
 
@@ -78,12 +91,8 @@ void MainThread(HMODULE module)
             {
                 jobject entity{ entity_set_it.methods["next"]->CallObject() };
 
-                /* Check if ent is nullptr */
-                if (entity == nullptr)
-                    break;
-
-                /* Check if localplayer */
-                if (entity == the_player.GetInstance())
+                /* Check if ent is nullptr or localplayer */
+                if (entity == nullptr || entity == the_player.GetInstance())
                     continue;
 
                 curr_entity.SetInstance(entity);
@@ -92,15 +101,10 @@ void MainThread(HMODULE module)
                 if (curr_entity.fields["width"]->GetValueFloat() <= 0.5 || curr_entity.fields["isDead"]->GetValueBoolean())
                     continue;
 
-                double src_x{ the_player.fields["posX"]->GetValueDouble() }, src_y{ the_player.fields["posY"]->GetValueDouble() },
-                    src_z{ the_player.fields["posZ"]->GetValueDouble() };
+                Vec3 localpos{ (float)the_player.fields["posX"]->GetValueDouble(), (float)the_player.fields["posY"]->GetValueDouble(), (float)the_player.fields["posZ"]->GetValueDouble() };
+                Vec3 entpos{ (float)curr_entity.fields["posX"]->GetValueDouble(), (float)curr_entity.fields["posY"]->GetValueDouble(), (float)curr_entity.fields["posZ"]->GetValueDouble() };
 
-                double dst_x{ curr_entity.fields["posX"]->GetValueDouble() }, dst_y{ curr_entity.fields["posY"]->GetValueDouble() }, 
-                    dst_z{ curr_entity.fields["posZ"]->GetValueDouble() };
-
-                static double distance{ 3 };
-
-                if (std::sqrt(std::pow(dst_x - src_x, 2) + std::pow(dst_y - src_y, 2) + std::pow(dst_y - src_y, 2)) <= distance)
+                if (std::sqrtf(std::pow(entpos.x - localpos.x, 2) + std::pow(entpos.y - localpos.y, 2) + std::pow(entpos.z - localpos.z, 2)))
                     locked = true;
             }
 
@@ -113,34 +117,29 @@ void MainThread(HMODULE module)
                     goto stopTargeting;
                 }
                 
-                double src_x{ the_player.fields["posX"]->GetValueDouble() }, src_y{ the_player.fields["posY"]->GetValueDouble() },
-                    src_z{ the_player.fields["posZ"]->GetValueDouble() };
+                Vec3 localpos{ (float)the_player.fields["posX"]->GetValueDouble(), (float)the_player.fields["posY"]->GetValueDouble(), (float)the_player.fields["posZ"]->GetValueDouble() };
+                Vec3 entpos{ (float)curr_entity.fields["posX"]->GetValueDouble(), (float)curr_entity.fields["posY"]->GetValueDouble(), (float)curr_entity.fields["posZ"]->GetValueDouble() };
 
-                double dst_x{ curr_entity.fields["posX"]->GetValueDouble() }, dst_y{ curr_entity.fields["posY"]->GetValueDouble() },
-                    dst_z{ curr_entity.fields["posZ"]->GetValueDouble() };
+                float magnitude{ std::sqrtf(std::pow(entpos.x - localpos.x, 2) + std::pow(entpos.y - localpos.y, 2) + std::pow(entpos.z - localpos.z, 2)) };
 
-
-                double magnitude{ std::sqrt(std::pow(dst_x - src_x, 2) + std::pow(dst_y - src_y, 2) + std::pow(dst_y - src_y, 2)) };
-
-                if (magnitude > 10 || magnitude < 1)
+                if (magnitude > max_distance || magnitude < 1)
                 {
                     locked = false;
                     goto stopTargeting;
                 }
 
-                double dlt_x{ dst_x - src_x }, dlt_y{ dst_y - src_y }, dlt_z{ dst_z - src_z };
+                Vec3 delta_vec = entpos - localpos;
 
                 float yaw{};
 
-                if (dlt_x < 0.f && dlt_z > 0.f || dlt_x > 0.f && dlt_z > 0.f)
-                    yaw = -std::atanf(dlt_x / dlt_z) * 180.f / PI;
+                /* Check quadrants for angle correction */
+                if (delta_vec.x < 0.f && delta_vec.z > 0.f || delta_vec.x > 0.f && delta_vec.z > 0.f)
+                    yaw = -std::atanf(delta_vec.x / delta_vec.z) * 180.f / PI;
                 else
-                    yaw = -std::atanf(dlt_x / dlt_z) * 180.f / PI + 180.f;
+                    yaw = -std::atanf(delta_vec.x / delta_vec.z) * 180.f / PI + 180.f;
 
-                float pitch{ (-atanf((1 - sqrtf(1 - 0.002f * (0.002f * (magnitude * magnitude) + 2 * dlt_y))) / (0.002f * magnitude))) * 180 / PI };
-
-                the_player.fields["yaw"]->SetValueFloat(ClampAng(yaw, -360, 360));
-                the_player.fields["pitch"]->SetValueFloat(ClampAng(pitch, -90, 90));
+                the_player.fields["yaw"]->SetValueFloat(ClampAng(yaw, -360.f, 360.f));
+                the_player.fields["pitch"]->SetValueFloat(ClampAng((-atanf((1 - sqrtf(1 - 0.002f * (0.002f * (magnitude * magnitude) + 2 * delta_vec.y))) / (0.002f * magnitude))) * 180 / PI, -90.f, 90.f));
             }
         stopTargeting:
             {}
