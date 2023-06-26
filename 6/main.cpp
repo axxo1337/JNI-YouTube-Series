@@ -103,8 +103,13 @@ void MainThread(HMODULE module)
                     Vec3 localpos{ (float)the_player.fields["posX"]->GetValueDouble(), (float)the_player.fields["posY"]->GetValueDouble(), (float)the_player.fields["posZ"]->GetValueDouble() };
                     Vec3 entpos{ (float)curr_entity.fields["posX"]->GetValueDouble(), (float)curr_entity.fields["posY"]->GetValueDouble(), (float)curr_entity.fields["posZ"]->GetValueDouble() };
 
-                    if (std::sqrtf(std::pow(entpos.x - localpos.x, 2) + std::pow(entpos.y - localpos.y, 2) + std::pow(entpos.z - localpos.z, 2)) <= max_distance)
+                    float magnitude{ std::sqrtf(std::pow(entpos.x - localpos.x, 2) + std::pow(entpos.y - localpos.y, 2) + std::pow(entpos.z - localpos.z, 2)) };
+
+                    if (magnitude <= max_distance && magnitude > 1)
+                    {
+                        printf("LOCKED!!!!\n");
                         locked = true;
+                    }
                 }
             }
 
@@ -114,6 +119,7 @@ void MainThread(HMODULE module)
                 if (curr_entity.fields["isDead"]->GetValueBoolean() || curr_entity.GetInstance() == the_player.GetInstance())
                 {
                     locked = false;
+                    printf("NOT LOCKED\n");
                     goto stopTargeting;
                 }
                 
@@ -125,6 +131,7 @@ void MainThread(HMODULE module)
                 if (magnitude > max_distance || magnitude < 1)
                 {
                     locked = false;
+                    printf("NOT LOCKED\n");
                     goto stopTargeting;
                 }
 
