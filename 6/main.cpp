@@ -34,8 +34,7 @@ void MainThread(HMODULE module)
 
     while (!GetAsyncKeyState(VK_END))
     {
-        static JNIClassInstance entity_set(p_jni->GetEnv(), p_jni->p_mapper->classes["Set"].get(), nullptr);
-        static JNIClassInstance entity_set_it(p_jni->GetEnv(), p_jni->p_mapper->classes["Iterator"].get(), nullptr);
+        static JNIClassInstance entity_list(p_jni->GetEnv(), p_jni->p_mapper->classes["List"].get(), nullptr);
         static JNIClassInstance curr_entity(p_jni->GetEnv(), p_jni->p_mapper->classes["Entity"].get(), nullptr);
         static JNIClassInstance the_player(p_jni->GetEnv(), p_jni->p_mapper->classes["EntityPlayerSP"].get(), nullptr);
         static bool was_in_menu{ true };
@@ -52,7 +51,7 @@ void MainThread(HMODULE module)
         {
             p_jni->p_mapper->classes["WorldClient"]->SetInstance(world_client);
 
-            entity_set.SetInstance(p_jni->p_mapper->classes["WorldClient"]->fields["entityList"]->GetValueObject());
+            entity_list.SetInstance(p_jni->p_mapper->classes["WorldClient"]->fields["loadedEntityList"]->GetValueObject());
             p_jni->p_mapper->classes["PlayerControllerMP"]->SetInstance(p_jni->p_mapper->classes["Minecraft"]->fields["playerController"]->GetValueObject());
             curr_entity.SetInstance(nullptr);
             the_player.SetInstance(p_jni->p_mapper->classes["Minecraft"]->fields["thePlayer"]->GetValueObject());
@@ -83,29 +82,30 @@ void MainThread(HMODULE module)
             static bool locked{ false };
             static float max_distance{ 8.f };
 
-            int entity_list_size{ entity_set.methods["size"]->CallInt() };
+            int entity_list_size{ entity_list.methods["size"]->CallInt()};
 
-            entity_set_it.SetInstance(entity_set.methods["iterator"]->CallObject());
-
-            while (!locked && entity_set_it.methods["hasNext"]->CallBoolean())
+            if (!locked)
             {
-                jobject entity{ entity_set_it.methods["next"]->CallObject() };
+                for (int i{}; i < entity_list_size; ++i)
+                {
+                    jobject entity{ entity_list.methods["get"]->CallObject((jvalue*)&i) };
 
-                /* Check if ent is nullptr or localplayer */
-                if (entity == nullptr || entity == the_player.GetInstance())
-                    continue;
+                    /* Check if ent is nullptr or localplayer */
+                    if (entity == nullptr || entity == the_player.GetInstance())
+                        continue;
 
-                curr_entity.SetInstance(entity);
+                    curr_entity.SetInstance(entity);
 
-                /* Check if is not item or xp etc and if is dead */
-                if (curr_entity.fields["width"]->GetValueFloat() <= 0.5 || curr_entity.fields["isDead"]->GetValueBoolean())
-                    continue;
+                    /* Check if is not item or xp etc and if is dead */
+                    if (curr_entity.fields["width"]->GetValueFloat() <= 0.5 || curr_entity.fields["isDead"]->GetValueBoolean())
+                        continue;
 
-                Vec3 localpos{ (float)the_player.fields["posX"]->GetValueDouble(), (float)the_player.fields["posY"]->GetValueDouble(), (float)the_player.fields["posZ"]->GetValueDouble() };
-                Vec3 entpos{ (float)curr_entity.fields["posX"]->GetValueDouble(), (float)curr_entity.fields["posY"]->GetValueDouble(), (float)curr_entity.fields["posZ"]->GetValueDouble() };
+                    Vec3 localpos{ (float)the_player.fields["posX"]->GetValueDouble(), (float)the_player.fields["posY"]->GetValueDouble(), (float)the_player.fields["posZ"]->GetValueDouble() };
+                    Vec3 entpos{ (float)curr_entity.fields["posX"]->GetValueDouble(), (float)curr_entity.fields["posY"]->GetValueDouble(), (float)curr_entity.fields["posZ"]->GetValueDouble() };
 
-                if (std::sqrtf(std::pow(entpos.x - localpos.x, 2) + std::pow(entpos.y - localpos.y, 2) + std::pow(entpos.z - localpos.z, 2)))
-                    locked = true;
+                    if (std::sqrtf(std::pow(entpos.x - localpos.x, 2) + std::pow(entpos.y - localpos.y, 2) + std::pow(entpos.z - localpos.z, 2)))
+                        locked = true;
+                }
             }
 
             /* Aim at targeted entity */

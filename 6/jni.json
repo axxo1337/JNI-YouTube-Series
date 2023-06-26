@@ -1,95 +1,109 @@
 {
-  "mc_version": "1.8.9",
-  "Minecraft": {
-    "name": "ave",
-    "fields": {
-      "theMinecraft": "S|Lave;|S",
-      "rightClickDelayTimer": "N|I|ap",
-      "theWorld": "N|Lbdb;|f",
-      "pointedEntity": "N|Lpk;|i",
-      "playerController": "N|Lbda;|c",
-      "thePlayer": "N|Lbew;|h",
-      "objectMouseOver": "N|Lauh;s"
-    },
-    "methods": {
-      "clickMouse": "N|()V|aw",
-      "prototyp": "N|I|zxdf"
-    }
-  },
-  "WorldClient": {
-    "name": "bdb",
-    "fields": {
-      "entityList": "N|Ljava/util/Set;|c"
-    },
-    "methods": {
-      "getEntityByID": "N|(I)Lpk;|a",
-      "setWorldTime": "N|(J)V|b",
-      "prototyp": "N|I|zxdf"
-    }
-  },
-  "PlayerControllerMP": {
-    "name": "bda",
-    "fields": {
-    },
-    "methods": {
-      "attackEntity": "N|(Lwn;Lpk;)V|a",
-      "prototyp": "N|I|zxdf"
-    }
-  },
-  "Set": {
-    "name": "java/util/Set",
-    "fields": {
-    },
-    "methods": {
-      "iterator": "N|()Ljava/util/Iterator;|iterator",
-      "size": "N|()I|size",
-      "prototyp": "N|I|zxdf"
-    }
-  },
-  "Iterator": {
-    "name": "java/util/Iterator",
-    "fields": {
-    },
-    "methods": {
-      "hasNext": "N|()Z|hasNext",
-      "next": "N|()Ljava/lang/Object;|next",
-      "prototyp": "N|I|zxdf"
-    }
-  },
-  "Entity": {
-    "name": "pk",
-    "fields": {
-      "posX": "N|D|s",
-      "posY": "N|D|t",
-      "posZ": "N|D|u",
-      "width": "N|F|J",
-      "height": "N|F|K",
-      "isDead":  "N|Z|I"
-    },
-    "methods": {
-      "getHealth": "N|()F|bn",
-      "prototyp": "N|I|zxdf"
-    }
-  },
-  "EntityPlayerSP": {
-    "name": "bew",
-    "fields": {
-      "posX": "N|D|s",
-      "posY": "N|D|t",
-      "posZ": "N|D|u",
-      "yaw":  "N|F|y",
-      "pitch":  "N|F|z"
-    },
-    "methods": {
-      "getHealth": "N|()F|bn",
-      "prototyp": "N|I|zxdf"
-    }
-  },
-  "EntityLivingBase": {
-    "name": "pr",
-    "fields": {
-    },
-    "methods": {
-    }
-  }
+   "mc_version":"1.8.9",
+   "Minecraft":{
+      "name":"ave",
+      "fields":{
+         "theMinecraft":"S|Lave;|S",
+         "rightClickDelayTimer":"N|I|ap",
+         "theWorld":"N|Lbdb;|f",
+         "pointedEntity":"N|Lpk;|i",
+         "playerController":"N|Lbda;|c",
+         "thePlayer":"N|Lbew;|h",
+         "objectMouseOver":"N|Lauh;s"
+      },
+      "methods":{
+         "clickMouse":"N|()V|aw",
+         "prototyp":"N|I|zxdf"
+      }
+   },
+   "WorldClient":{
+      "name":"bdb",
+      "fields":{
+         "entityList":"N|Ljava/util/Set;|c",
+         "loadedEntityList":"N|Ljava/util/List;|f"
+      },
+      "methods":{
+         "getEntityByID":"N|(I)Lpk;|a",
+         "setWorldTime":"N|(J)V|b",
+         "prototyp":"N|I|zxdf"
+      }
+   },
+   "PlayerControllerMP":{
+      "name":"bda",
+      "fields":{
+         
+      },
+      "methods":{
+         "attackEntity":"N|(Lwn;Lpk;)V|a",
+         "prototyp":"N|I|zxdf"
+      }
+   },
+   "Set":{
+      "name":"java/util/Set",
+      "fields":{
+      },
+      "methods":{
+         "iterator":"N|()Ljava/util/Iterator;|iterator",
+         "size":"N|()I|size",
+         "toArray":"N|()[Ljava/lang/Object;|toArray",
+         "prototyp":"N|I|zxdf"
+      }
+   },
+   "Iterator":{
+      "name":"java/util/Iterator",
+      "fields":{
+      },
+      "methods":{
+         "hasNext":"N|()Z|hasNext",
+         "next":"N|()Ljava/lang/Object;|next",
+         "prototyp":"N|I|zxdf"
+      }
+   },
+   "Entity":{
+      "name":"pk",
+      "fields":{
+         "posX":"N|D|s",
+         "posY":"N|D|t",
+         "posZ":"N|D|u",
+         "width":"N|F|J",
+         "height":"N|F|K",
+         "isDead":"N|Z|I"
+      },
+      "methods":{
+         "getHealth":"N|()F|bn",
+         "prototyp":"N|I|zxdf"
+      }
+   },
+   "EntityPlayerSP":{
+      "name":"bew",
+      "fields":{
+         "posX":"N|D|s",
+         "posY":"N|D|t",
+         "posZ":"N|D|u",
+         "yaw":"N|F|y",
+         "pitch":"N|F|z"
+      },
+      "methods":{
+         "getHealth":"N|()F|bn",
+         "prototyp":"N|I|zxdf"
+      }
+   },
+   "EntityLivingBase":{
+      "name":"pr",
+      "fields":{
+      },
+      "methods":{
+      }
+   },
+   "List":{
+      "name": "java/util/List",
+      "fields":{
+      },
+      "methods":{
+        "get": "N|(I)Ljava/lang/Object;|get",
+        "size": "N|()I|size",
+        "toArray":"N|()[Ljava/lang/Object;|toArray",
+        "prototyp":"N|I|zxdf"
+      }
+   }
 }

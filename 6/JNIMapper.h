@@ -12,7 +12,7 @@
 #include <json.hpp>
 #include <jni.h>
 
-#define JNI_DEBUG_OUTPUT 0
+#define JNI_DEBUG_OUTPUT 1
 
 class JNIMapper final
 {
@@ -236,6 +236,12 @@ public:
 				{
 					p_method = std::make_shared<JNIMethodObject>(p_env, p_mapped_class, method_id, is_static);
 				} break;
+				
+				case '[':
+				{
+					// TEMP WILL NEED TO ADAPT FOR ALL ARRAYS
+					p_method = std::make_shared<JNIMethodObjectArray>(p_env, p_mapped_class, method_id, is_static);
+				}
 				}
 
 				p_mapped_class->methods.emplace(std::pair{ it_j.key(), std::move(p_method) });

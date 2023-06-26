@@ -450,6 +450,11 @@ public:
 		return nullptr;
 	}
 
+	virtual jobjectArray CallObjectArray(jvalue* args = nullptr)
+	{
+		return nullptr;
+	}
+
 protected:
 	JNIEnv* p_env;
 	JNIClass* parent;
@@ -597,6 +602,23 @@ public:
 			return nullptr;
 
 		return p_env->CallObjectMethodA(parent->GetInstance(), id, args);
+	}
+};
+
+class JNIMethodObjectArray : public JNIMethod
+{
+public:
+	using JNIMethod::JNIMethod;
+
+	jobjectArray CallObjectArray(jvalue* args = nullptr)
+	{
+		if (is_static)
+			return (jobjectArray)p_env->CallStaticObjectMethodA(parent->GetPtr(), id, args);
+
+		if (parent->GetInstance() == nullptr)
+			return nullptr;
+
+		return (jobjectArray)p_env->CallObjectMethodA(parent->GetInstance(), id, args);
 	}
 };
 
