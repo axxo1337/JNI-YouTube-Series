@@ -80,7 +80,7 @@ void MainThread(HMODULE module)
         /* Aimbot */
         {
             static bool locked{ false };
-            static float max_distance{ 8.f };
+            static float max_distance{ 10.f };
 
             int entity_list_size{ entity_list.methods["size"]->CallInt()};
 
@@ -103,7 +103,7 @@ void MainThread(HMODULE module)
                     Vec3 localpos{ (float)the_player.fields["posX"]->GetValueDouble(), (float)the_player.fields["posY"]->GetValueDouble(), (float)the_player.fields["posZ"]->GetValueDouble() };
                     Vec3 entpos{ (float)curr_entity.fields["posX"]->GetValueDouble(), (float)curr_entity.fields["posY"]->GetValueDouble(), (float)curr_entity.fields["posZ"]->GetValueDouble() };
 
-                    if (std::sqrtf(std::pow(entpos.x - localpos.x, 2) + std::pow(entpos.y - localpos.y, 2) + std::pow(entpos.z - localpos.z, 2)))
+                    if (std::sqrtf(std::pow(entpos.x - localpos.x, 2) + std::pow(entpos.y - localpos.y, 2) + std::pow(entpos.z - localpos.z, 2)) <= max_distance)
                         locked = true;
                 }
             }
